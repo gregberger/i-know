@@ -18,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class Main extends AbstractController
 {
     #[Route('/')]
-    public function index(Request $req): Response
+    public function index(Request $req, NotionService $notionService): Response
     {
         return $this->render('main/index.html.twig');
     }
@@ -26,7 +26,8 @@ class Main extends AbstractController
     #[Route('/get-data')]
     public function jsonData(NotionService $notionService, Request $request) : JsonResponse
     {
-        return new JsonResponse(['hello'=>'world']);
+        $timelineElements = $notionService->getTimelineElements();
+        return new JsonResponse($timelineElements);
     }
 
 }

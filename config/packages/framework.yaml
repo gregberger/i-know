@@ -17,6 +17,13 @@ framework:
     php_errors:
         log: true
 
+    http_client:
+        scoped_clients:
+            notion.client:
+                base_uri: '%env(NOTION_API_BASE_URL)%'
+                auth_bearer: '%env(NOTION_KEY)%'
+                headers:
+                    Notion-Version: '%env(NOTION_API_VERSION)%'
 when@test:
     framework:
         test: true
