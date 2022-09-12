@@ -23,11 +23,14 @@ class Main extends AbstractController
         return $this->render('main/index.html.twig');
     }
 
-    #[Route('/get-data')]
-    public function jsonData(NotionService $notionService, Request $request) : JsonResponse
+    #[Route('/get-data', name: 'get-data')]
+    public function jsonData(NotionService $notionService, Request $request) : Response
     {
-        $timelineElements = $notionService->getTimelineElements();
-        return new JsonResponse($timelineElements);
+        $response = new Response();
+        $response->headers->set('Content-Type','application/json');
+        return $this->render('main/timeline.intro.json.twig', [
+            'timelineElements'  => $notionService->getTimelineElements()
+        ], $response);
     }
 
 }

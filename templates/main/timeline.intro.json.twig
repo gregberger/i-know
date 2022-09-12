@@ -1,0 +1,150 @@
+{
+    "title": {
+        "text": {
+            "headline": "I know what you did last Friday",
+            "text": "What was I doing instead of being at that technical interview"
+        }
+    },
+    "events": [
+        {
+            "text": {
+                "headline": "Forensics of a screw-up",
+                "text": "<p>Today I missed a technical interview call at a company I really wanted to work for.</p><p>I was so convinced that the call was planned at 1.30pm that I even read that time on my daily agenda reminder, despite having the event correctly scheduled.</p><p>There's probably a psychologist out there who knows the name of that bias of being so convinced of something that it becomes a reality.<br />There's also probably a psychoanalyst who can tell me that the fact I screwed up that interview is probably due to my subconscious desire to have s*x with my mother.</p>"
+            },
+            "group": "intro",
+            "start_date": {
+                "year": "2022",
+                "month": "09",
+                "day": "09"
+            }
+        },
+        {
+            "text": {
+                "headline": "First lesson learned : <br /> reactivate the reminders",
+                "text": "I usually turn off the 30 minutes before the events reminders because I find them too many and too distracting. <b>Bad Idea.</b>"
+            },
+            "group": "Life lessons",
+            "start_date": {
+                "year": "2022",
+                "month": "09",
+                "day": "09",
+                "hour": 1,
+                "display_date": "September 9, 2022 "
+            }
+        },
+        {
+            "text": {
+                "headline": "Second lesson learned : <br /> do not react too impulsively",
+                "text": "I found out I missed the call about an hour after the beginning time. I was angry at myself and immediately send an email to apologize for wasting their time and claim my good faith.<br/>At the moment, I was so convinced that it was a deal breaker for the people I had this meeting with, that I didn't dare to ask for rescheduling."
+            },
+            "group": "Life lessons",
+            "start_date": {
+                "year": "2022",
+                "month": "09",
+                "day": "09",
+                "hour": 2,
+                "display_date": "September 9, 2022"
+            }
+        },
+        {
+            "text": {
+                "headline": "Third lesson learned : <br /> Don't live with regrets.<br/> Be audacious. <br /> It might pay off",
+                "text": "<p>I regret not daring to ask for a rescheduling. Things like that happen, and as much there are better ways to make a first impression, humans make mistakes. This somehow proves that I'm a human.</p><p>Would have I been a bit gutsy, I'd have said that it was a test to check if they really wanted me to work with them (but I'm not that kind of guy 🙃)</p>"
+            },
+            "group": "Life lessons",
+            "start_date": {
+                "year": "2022",
+                "month": "09",
+                "day": "09",
+                "hour": 3,
+                "display_date": "September 9, 2022"
+            }
+        },
+        {
+            "text": {
+                "headline": "Fourth lesson learned : <br />You might have a long life experience, sometimes you have to learn life-lessons another time",
+                "text": "yup."
+            },
+            "media": {
+                "url" : "https://www.youtube.com/watch?v=fOVECbr-vsc",
+                "caption": "cheesy soundtrack"
+            },
+            "group": "Life lessons",
+            "start_date": {
+                "year": "2022",
+                "month": "09",
+                "day": "09",
+                "hour": 4,
+                "display_date": "September 9, 2022"
+            }
+        },
+        {
+            "text": {
+                "headline": "It's been several hours now and I'm still mad at myself",
+                "text": "But in order to do something creative with my self-directed anger, I did a little forensics, gathered information on what I was doing during the ~30 minutes of that meeting between 11.30AM and noon this Friday."
+            },
+            "group": "Get creative",
+            "start_date": {
+                "year": "2022",
+                "month": "09",
+                "day": "09",
+                "hour": 5,
+                "display_date": "September 9, 2022"
+            },
+            "media": {
+                "url": "{{ asset('img/browserHistory-220909.png') }}",
+                "caption": "Screenshot of 30 minutes of my browser history."
+            }
+        },
+        {
+            "text": {
+                "headline": "So, what have I been to ?",
+                "text" : "Take the tour..."
+            },
+            "start_date": {
+                "year": "2022",
+                "month": "09",
+                "day": "09",
+                "hour": 11,
+                "minute": 10
+            }
+        },{% for element in timelineElements %}
+        {
+            "text": {
+                "headline": "{{ element.title }}",
+                "text": "{{ element.description|replace({"\n":"<br />"})|raw }}"
+            },
+            "group": "{{ element.location }}",
+            "start_date": {
+                "year": "2022",
+                "month": "{{ element.start | date('m') }}",
+                "day":   "{{ element.start | date('d') }}",
+                "hour": "{{ element.start | date('H', 'europe/brussels') }}",
+                "minute": "{{ element.start | date('i') }}"
+            },
+            "end_date": {
+                "year": "2022",
+                "month": "{{ element.end | date('m') }}",
+                "day":   "{{ element.start | date('d') }}",
+                "hour": "{{ element.end | date('H', 'europe/brussels') }}",
+                "minute": "{{ element.end | date('i') }}"
+            }
+            {% if element.type == 'image' %}
+            ,
+            "media": {
+                "url": "{{ element.picture.file.url | raw }}",
+                "caption": "{{ element.caption }}"
+            }
+            {% elseif element.type == 'midjourney' %}
+            ,
+            "media": {
+                "url" : "{{ element.url }}",
+                "caption" : "prompt: <b>{{ element.caption }}</b>",
+                "credit": "{{ element.credits }}"
+            }
+            {% endif %}
+        }
+        {% if not loop.last %},{% endif %}
+        {% endfor %}
+    ]
+}

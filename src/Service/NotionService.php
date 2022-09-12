@@ -33,9 +33,14 @@ class NotionService
         return $response->toArray()['results'];
     }
 
+    /**
+     * @return TimelineElement[]
+     * @throws Exception
+     */
     public function getTimelineElements() : array
     {
         $db = $this->getDatabase();
+        // dd($db);
         $timelineElements = [];
         foreach ($db as $object){
             if($object['object'] !== 'page') {
@@ -56,16 +61,20 @@ class NotionService
     )]
     private function getPropertiesFromPage(array $properties): TimelineElement
     {
+        // if no end date same as start date
+        $end = $properties['Date']['date']['end'] ? 'end' : 'start';
         return new TimelineElement(
             url: $properties['URL']['url'],
             title: $properties['Name']['title'][0]['plain_text'],
             description: $properties['Description']['rich_text'][0]['plain_text'],
             start: new \DateTime($properties['Date']['date']['start']),
-            end: $properties['Date']['date']['end']?new \DateTime($properties['Date']['date']['end']):null,
+            end: new \DateTime($properties['Date']['date'][$end]),
             type: $properties['Type']['select']['name']??'',
             origin: $properties['Origin']['select']['name'],
             location: $properties['Location']['select']['name'],
-            picture: $properties['Picture']['files'][0]??null
+            picture: $properties['Picture']['files'][0]??null,
+            caption: $properties['caption']['rich_text'][0]['plain_text']??'',
+            credits: $properties['credits']['rich_text'][0]['plain_text']??''
         );
     }
 }

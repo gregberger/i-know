@@ -20,5 +20,7 @@ class TimelineElement
         public readonly string $origin,
         public readonly string $location,
         public readonly array|null $picture,
+        public readonly string $caption,
+        public readonly string $credits
     ) { }
 }
